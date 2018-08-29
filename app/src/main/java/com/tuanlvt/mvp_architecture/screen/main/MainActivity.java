@@ -9,8 +9,11 @@ import com.tuanlvt.mvp_architecture.data.model.Movie;
 import com.tuanlvt.mvp_architecture.data.source.MovieRepository;
 import com.tuanlvt.mvp_architecture.data.source.local.MovieLocalDataSource;
 import com.tuanlvt.mvp_architecture.data.source.remote.MovieRemoteDataSource;
+import com.tuanlvt.mvp_architecture.data.source.remote.api.Api;
+import com.tuanlvt.mvp_architecture.data.source.remote.api.RetrofitBuilder;
 import com.tuanlvt.mvp_architecture.screen.main.adapter.MainAdapter;
 import com.tuanlvt.mvp_architecture.utils.OnItemRecyclerViewClickListener;
+import com.tuanlvt.mvp_architecture.utils.rx.SchedulerProvider;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -35,11 +38,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
-        MovieRemoteDataSource remoteDataSource = MovieRemoteDataSource.getsInstance();
-        MovieLocalDataSource localDataSource = MovieLocalDataSource.getsInstance();
-        MovieRepository repository =
-                MovieRepository.getsInstance(remoteDataSource, localDataSource);
-        MainContract.Presenter presenter = new MainPresenter(repository);
+
+        MovieRepository repository = new MovieRepository(
+                new MovieRemoteDataSource(RetrofitBuilder.getsRetrofit().create(Api.class)),
+                new MovieLocalDataSource());
+        SchedulerProvider schedulerProvider = SchedulerProvider.getsInstance();
+        MainContract.Presenter presenter = new MainPresenter(repository, schedulerProvider);
         presenter.setView(this);
         presenter.getMovie();
     }
@@ -52,12 +56,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onError(Exception exception) {
-        Toast.makeText(this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+    public void onError(Throwable throwable) {
+        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemClickListener(Movie item) {
-        Toast.makeText(this, item.getTitile(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

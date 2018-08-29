@@ -1,13 +1,16 @@
 package com.tuanlvt.mvp_architecture.data.source;
 
+import com.tuanlvt.mvp_architecture.data.model.BaseResponse;
 import com.tuanlvt.mvp_architecture.data.model.Movie;
-import com.tuanlvt.mvp_architecture.data.source.remote.OnFetchDataJsonListener;
+import io.reactivex.Observable;
+import java.util.List;
 
 /**
- * Created by FRAMGIA\le.vu.tan.tuan on 23/08/2018.
+ * Created by FRAMGIA\le.vu.tan.tuan on 24/08/2018.
  * tantuan127@gmail.com
  */
 public interface MovieDataSource {
+
     /**
      * Local
      */
@@ -19,6 +22,6 @@ public interface MovieDataSource {
      * Remote
      */
     interface RemoteDataSource {
-        void getData(OnFetchDataJsonListener<Movie> listener);
+        Observable<BaseResponse<List<Movie>>> getData();
     }
 }

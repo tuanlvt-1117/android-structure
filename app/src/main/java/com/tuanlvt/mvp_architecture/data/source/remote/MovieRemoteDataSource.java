@@ -1,27 +1,26 @@
 package com.tuanlvt.mvp_architecture.data.source.remote;
 
+import com.tuanlvt.mvp_architecture.data.model.BaseResponse;
 import com.tuanlvt.mvp_architecture.data.model.Movie;
 import com.tuanlvt.mvp_architecture.data.source.MovieDataSource;
-import com.tuanlvt.mvp_architecture.data.source.remote.fetchjson.GetDataJson;
+import com.tuanlvt.mvp_architecture.data.source.remote.api.Api;
+import io.reactivex.Observable;
+import java.util.List;
 
 /**
- * Created by FRAMGIA\le.vu.tan.tuan on 23/08/2018.
+ * Created by FRAMGIA\le.vu.tan.tuan on 24/08/2018.
  * tantuan127@gmail.com
  */
 public class MovieRemoteDataSource implements MovieDataSource.RemoteDataSource {
 
-    private static MovieRemoteDataSource sInstance;
+    private Api mApi;
 
-    public static MovieRemoteDataSource getsInstance() {
-        if (sInstance == null) {
-            sInstance = new MovieRemoteDataSource();
-        }
-        return sInstance;
+    public MovieRemoteDataSource(Api api) {
+        mApi = api;
     }
 
     @Override
-    public void getData(OnFetchDataJsonListener<Movie> listener) {
-        GetDataJson getDataJson = new GetDataJson(listener);
-        getDataJson.getData();
+    public Observable<BaseResponse<List<Movie>>> getData() {
+        return mApi.getData(1);
     }
 }

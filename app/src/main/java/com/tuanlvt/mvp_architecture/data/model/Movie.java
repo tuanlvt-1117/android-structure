@@ -1,26 +1,48 @@
 package com.tuanlvt.mvp_architecture.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
- * Created by FRAMGIA\le.vu.tan.tuan on 22/08/2018.
+ * Created by FRAMGIA\le.vu.tan.tuan on 24/08/2018.
  * tantuan127@gmail.com
  */
-public class Movie {
-    private int mVote;
-    private String mTitile;
+public class Movie implements Parcelable {
+    @Expose
+    @SerializedName("vote_average")
+    private double mVote;
+    @Expose
+    @SerializedName("title")
+    private String mTitle;
+    @Expose
+    @SerializedName("poster_path")
     private String mUrlImage;
+    @Expose
+    @SerializedName("original_title")
     private String mOriginalTitle;
 
-    public Movie(MovieBuilder movieBuilder) {
-        mVote = movieBuilder.mVote;
-        mTitile = movieBuilder.mTitle;
-        mUrlImage = movieBuilder.mUrlImage;
-        mOriginalTitle = movieBuilder.mOriginalTitle;
+    private Movie(Parcel in) {
+        mVote = in.readDouble();
+        mTitle = in.readString();
+        mUrlImage = in.readString();
+        mOriginalTitle = in.readString();
     }
 
-    public Movie() {
-    }
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
 
-    public int getVote() {
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    public double getVote() {
         return mVote;
     }
 
@@ -28,12 +50,12 @@ public class Movie {
         mVote = vote;
     }
 
-    public String getTitile() {
-        return mTitile;
+    public String getTitle() {
+        return mTitle;
     }
 
-    public void setTitile(String titile) {
-        mTitile = titile;
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
     public String getUrlImage() {
@@ -52,52 +74,16 @@ public class Movie {
         mOriginalTitle = originalTitle;
     }
 
-    public static class MovieBuilder {
-        private int mVote;
-        private String mTitle;
-        private String mUrlImage;
-        private String mOriginalTitle;
-
-        public MovieBuilder(int vote, String title, String urlImage, String originalTitle) {
-            mVote = vote;
-            mTitle = title;
-            mUrlImage = urlImage;
-            mOriginalTitle = originalTitle;
-        }
-
-        public MovieBuilder() {
-        }
-
-        public MovieBuilder vote(int vote) {
-            mVote = vote;
-            return this;
-        }
-
-        public MovieBuilder title(String title) {
-            mTitle = title;
-            return this;
-        }
-
-        public MovieBuilder urlImage(String urlImage) {
-            mUrlImage = urlImage;
-            return this;
-        }
-
-        public MovieBuilder originalTitle(String originalTitle) {
-            mOriginalTitle = originalTitle;
-            return this;
-        }
-
-        public Movie build() {
-            return new Movie(this);
-        }
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public final class MovieEntry {
-        public static final String MOVIE = "results";
-        public static final String VOTE = "vote_average";
-        public static final String TITLE = "title";
-        public static final String URL_IMAGE = "poster_path";
-        public static final String ORIGINAL_TITLE = "original_title";
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(mVote);
+        dest.writeString(mTitle);
+        dest.writeString(mUrlImage);
+        dest.writeString(mOriginalTitle);
     }
 }

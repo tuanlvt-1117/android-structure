@@ -8,7 +8,7 @@ import com.tuanlvt.mvp_architecture.BuildConfig;
  */
 public final class Constant {
 
-    public final static String BASE_URL = "https://api.themoviedb.org/3/movie/top_rated?";
+    public final static String BASE_URL = "https://api.themoviedb.org/";
     public final static String BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w500";
     public final static String BASE_LANGUAGE = "&language=en-US";
     public final static String BASE_PAGE = "&page=1";

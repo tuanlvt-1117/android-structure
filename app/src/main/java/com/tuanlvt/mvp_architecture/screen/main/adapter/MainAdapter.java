@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by FRAMGIA\le.vu.tan.tuan on 23/08/2018.
+ * Created by FRAMGIA\le.vu.tan.tuan on 24/08/2018.
  * tantuan127@gmail.com
  */
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
@@ -82,7 +82,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         }
 
         void bindViewData(Movie movie) {
-            mTextTitle.setText(movie.getTitile());
+            mTextTitle.setText(movie.getTitle());
             mTextRating.setText(String.valueOf(movie.getVote()));
             mTextContent.setText(movie.getOriginalTitle());
             getImageCircle(movie);
