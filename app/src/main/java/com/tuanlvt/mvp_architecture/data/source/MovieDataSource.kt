@@ -13,6 +13,6 @@ interface MovieDataSource {
      * Remote
      */
     interface Remote {
-        fun getMovies(listener: OnFetchDataJsonListener<Movie>)
+        fun getMovies(listener: OnFetchDataJsonListener<MutableList<Movie>>)
     }
 }

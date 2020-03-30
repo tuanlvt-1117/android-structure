@@ -9,7 +9,9 @@ class MainPresenter internal constructor(private val repository: MovieRepository
 
     private var view: MainContract.View? = null
 
-    override fun onStart() {}
+    override fun onStart() {
+        getMovies()
+    }
 
     override fun onStop() {}
 
@@ -18,13 +20,13 @@ class MainPresenter internal constructor(private val repository: MovieRepository
     }
 
     override fun getMovies() {
-        repository?.getData(object : OnFetchDataJsonListener<Movie> {
+        repository?.getMovie(object : OnFetchDataJsonListener<MutableList<Movie>> {
             override fun onSuccess(data: MutableList<Movie>) {
                 view?.onGetMoviesSuccess(data)
             }
 
-            override fun onError(e: Exception?) {
-                view?.onError(e)
+            override fun onError(exception: Exception?) {
+                view?.onError(exception)
             }
         })
     }

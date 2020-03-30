@@ -1,13 +1,13 @@
 package com.tuanlvt.mvp_architecture.data.source.remote.fetchjson
 
 import android.os.AsyncTask
-import com.tuanlvt.mvp_architecture.data.model.Movie
 import com.tuanlvt.mvp_architecture.data.source.remote.OnFetchDataJsonListener
-import org.json.JSONException
 import org.json.JSONObject
 
-class GetJsonFromUrl constructor(private val listener: OnFetchDataJsonListener<Movie>) :
-        AsyncTask<String?, Void?, String?>() {
+class GetJsonFromUrl<T> constructor(private val listener: OnFetchDataJsonListener<T>,
+                                    private val keyEntity: String) : AsyncTask<String?, Void?, String?>() {
+
+    private var exception: Exception? = null
 
     override fun doInBackground(vararg strings: String?): String? {
         var data = ""
@@ -15,20 +15,17 @@ class GetJsonFromUrl constructor(private val listener: OnFetchDataJsonListener<M
             val parseDataWithJson = ParseDataWithJson()
             data = parseDataWithJson.getJsonFromUrl(strings[0]).toString()
         } catch (e: Exception) {
-            listener.onError(e)
+            exception = e
         }
         return data
     }
 
     override fun onPostExecute(data: String?) {
         super.onPostExecute(data)
-        try {
-            data?.let {
-                val jsonObject = JSONObject(it)
-                listener.onSuccess(ParseDataWithJson().parseJsonToData(jsonObject))
-            }
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
+        if (data != null && !data.isBlank()) {
+            val jsonObject = JSONObject(data)
+            @Suppress("UNCHECKED_CAST")
+            listener.onSuccess(ParseDataWithJson().parseJsonToData(jsonObject, keyEntity) as T)
+        } else listener.onError(exception)
     }
 }

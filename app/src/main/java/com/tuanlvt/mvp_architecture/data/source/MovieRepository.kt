@@ -5,20 +5,20 @@ import com.tuanlvt.mvp_architecture.data.source.local.MovieLocalDataSource
 import com.tuanlvt.mvp_architecture.data.source.remote.MovieRemoteDataSource
 import com.tuanlvt.mvp_architecture.data.source.remote.OnFetchDataJsonListener
 
-class MovieRepository private constructor(private val remoteDataSource: MovieDataSource.Remote?,
-                                          private val localDataSource: MovieDataSource.Local?) {
+class MovieRepository private constructor(private val remote: MovieDataSource.Remote,
+                                          private val local: MovieDataSource.Local) {
 
-    private object HOLDER {
+    private object Holder {
         val INSTANCE = MovieRepository(
-                remoteDataSource = MovieRemoteDataSource.instance,
-                localDataSource = MovieLocalDataSource.instance)
+                remote = MovieRemoteDataSource.instance,
+                local = MovieLocalDataSource.instance)
     }
 
-    fun getData(listener: OnFetchDataJsonListener<Movie>) {
-        remoteDataSource?.getMovies(listener)
+    fun getMovie(listener: OnFetchDataJsonListener<MutableList<Movie>>) {
+        remote.getMovies(listener)
     }
 
     companion object {
-        val instance: MovieRepository by lazy { HOLDER.INSTANCE }
+        val instance: MovieRepository by lazy { Holder.INSTANCE }
     }
 }

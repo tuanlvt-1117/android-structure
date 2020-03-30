@@ -4,11 +4,11 @@ import com.tuanlvt.mvp_architecture.data.source.MovieDataSource
 
 class MovieLocalDataSource : MovieDataSource.Local {
 
-    private object HOLDER {
+    private object Holder {
         val INSTANCE = MovieLocalDataSource()
     }
 
     companion object {
-        val instance: MovieLocalDataSource by lazy { HOLDER.INSTANCE }
+        val instance: MovieLocalDataSource by lazy { Holder.INSTANCE }
     }
 }
