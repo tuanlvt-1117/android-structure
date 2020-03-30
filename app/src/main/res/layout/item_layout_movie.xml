@@ -1,54 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dp_1"
-    >
+    android:layout_margin="@dimen/dp_1">
 
     <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_3"
-        android:padding="@dimen/dp_3"
-        >
+        android:padding="@dimen/dp_3">
+
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_circle_movie"
+            android:id="@+id/imageMovie"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_60"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/text_title_movie"
+            android:id="@+id/textViewTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/color_indigo_500"
             android:textSize="@dimen/sp_17"
-            app:layout_constraintLeft_toRightOf="@+id/image_circle_movie"
-            app:layout_constraintRight_toLeftOf="@+id/text_rating"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintEnd_toStartOf="@+id/textViewRatting"
+            app:layout_constraintStart_toEndOf="@+id/imageMovie"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/text_rating"
+            android:id="@+id/textViewRatting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_red_700"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/text_content_movie"
+            android:id="@+id/textViewContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_1"
             android:ellipsize="end"
             android:maxLines="1"
-            app:layout_constraintLeft_toRightOf="@+id/image_circle_movie"
-            app:layout_constraintTop_toBottomOf="@+id/text_title_movie"
-            />
+            app:layout_constraintLeft_toRightOf="@+id/imageMovie"
+            app:layout_constraintTop_toBottomOf="@+id/textViewRatting" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
