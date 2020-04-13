@@ -6,14 +6,13 @@ import android.widget.Toast
 import com.tuanlvt.mvp_architecture.R
 import com.tuanlvt.mvp_architecture.data.model.Movie
 import com.tuanlvt.mvp_architecture.data.source.MovieRepository
-import com.tuanlvt.mvp_architecture.screen.main.MainContract.Presenter
 import com.tuanlvt.mvp_architecture.screen.main.adapter.MainAdapter
 import com.tuanlvt.mvp_architecture.utils.OnItemRecyclerViewClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainContract.View, OnItemRecyclerViewClickListener<Movie> {
 
-    private lateinit var adapter: MainAdapter
+    private val adapter: MainAdapter by lazy { MainAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,16 +23,14 @@ class MainActivity : AppCompatActivity(), MainContract.View, OnItemRecyclerViewC
 
     private fun initView() {
         recyclerViewMovie.setHasFixedSize(true)
-        adapter = MainAdapter()
         recyclerViewMovie.adapter = adapter
         adapter.registerItemRecyclerViewClickListener(this)
     }
 
     private fun initData() {
-        val repository: MovieRepository = MovieRepository.instance
-        val presenter: Presenter = MainPresenter(repository)
+        val presenter = MainPresenter(MovieRepository.instance)
         presenter.setView(this)
-        presenter.getMovies()
+        presenter.onStart()
     }
 
     override fun onGetMoviesSuccess(movies: MutableList<Movie>) {
