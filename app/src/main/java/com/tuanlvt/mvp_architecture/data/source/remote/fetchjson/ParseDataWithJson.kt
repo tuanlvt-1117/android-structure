@@ -1,6 +1,7 @@
 package com.tuanlvt.mvp_architecture.data.source.remote.fetchjson
 
 import com.tuanlvt.mvp_architecture.data.model.MovieEntry
+import com.tuanlvt.mvp_architecture.utils.Constant
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -11,14 +12,16 @@ import java.net.URL
 class ParseDataWithJson {
 
     @Throws(Exception::class)
-    fun getJsonFromUrl(urlString: String?): String? {
-        val url = URL(urlString)
-        val httpURLConnection = url.openConnection() as HttpURLConnection
-        httpURLConnection.connectTimeout = TIME_OUT
-        httpURLConnection.readTimeout = TIME_OUT
-        httpURLConnection.requestMethod = METHOD_GET
-        httpURLConnection.doOutput = true
-        httpURLConnection.connect()
+    fun getJsonFromUrl(urlString: String?): String {
+        val url = URL(urlString + Constant.BASE_API_KEY + Constant.BASE_LANGUAGE)
+        val httpURLConnection = url.openConnection() as? HttpURLConnection
+        httpURLConnection?.run {
+            connectTimeout = TIME_OUT
+            readTimeout = TIME_OUT
+            requestMethod = METHOD_GET
+            doOutput = true
+            connect()
+        }
 
         val bufferedReader = BufferedReader(InputStreamReader(url.openStream()))
         val stringBuilder = StringBuilder()
@@ -27,7 +30,7 @@ class ParseDataWithJson {
             stringBuilder.append(line)
         }
         bufferedReader.close()
-        httpURLConnection.disconnect()
+        httpURLConnection?.disconnect()
         return stringBuilder.toString()
     }
 
@@ -36,8 +39,7 @@ class ParseDataWithJson {
         try {
             val jsonArray = jsonObject?.getJSONArray(keyEntity)
             for (i in 0 until (jsonArray?.length() ?: 0)) {
-                val jsonObjects = jsonArray?.getJSONObject(i)
-                val item = ParseDataWithJson().parseJsonToObject(jsonObjects, keyEntity)
+                val item = ParseDataWithJson().parseJsonToObject(jsonArray?.getJSONObject(i), keyEntity)
                 item?.let { data.add(it) }
             }
         } catch (e: JSONException) {
@@ -62,6 +64,6 @@ class ParseDataWithJson {
 
     companion object {
         private const val TIME_OUT = 15000
-        private val METHOD_GET: String? = "GET"
+        private const val METHOD_GET = "GET"
     }
 }

@@ -4,11 +4,12 @@ import com.tuanlvt.mvp_architecture.data.source.MovieDataSource
 
 class MovieLocalDataSource : MovieDataSource.Local {
 
-    private object Holder {
-        val INSTANCE = MovieLocalDataSource()
-    }
-
     companion object {
-        val instance: MovieLocalDataSource by lazy { Holder.INSTANCE }
+        @Volatile
+        private var instance: MovieLocalDataSource? = null
+
+        fun getInstance() = synchronized(this) {
+            instance ?: MovieLocalDataSource().also { instance = it }
+        }
     }
 }

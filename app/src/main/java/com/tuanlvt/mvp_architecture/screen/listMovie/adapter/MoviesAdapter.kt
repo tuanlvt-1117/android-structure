@@ -1,24 +1,23 @@
-package com.tuanlvt.mvp_architecture.screen.main.adapter
+package com.tuanlvt.mvp_architecture.screen.listMovie.adapter
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.RecyclerView
 import com.tuanlvt.mvp_architecture.R
 import com.tuanlvt.mvp_architecture.data.model.Movie
-import com.tuanlvt.mvp_architecture.utils.Constant
 import com.tuanlvt.mvp_architecture.utils.OnItemRecyclerViewClickListener
+import com.tuanlvt.mvp_architecture.utils.ext.loadImageCircleWithUrl
 import kotlinx.android.synthetic.main.item_layout_movie.view.*
 
-class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder?>() {
+class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder?>() {
     private val movies = mutableListOf<Movie>()
     private var onItemClickListener: OnItemRecyclerViewClickListener<Movie>? = null
 
     fun updateData(movies: MutableList<Movie>?) {
         movies?.let {
             this.movies.clear()
-            this.movies.addAll(movies)
+            this.movies.addAll(it)
             notifyDataSetChanged()
         }
     }
@@ -38,32 +37,28 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder?>() {
         holder.bindViewData(movies[position])
     }
 
-    override fun getItemCount(): Int {
-        return movies.size
-    }
+    override fun getItemCount() = movies.size
 
-    inner class ViewHolder(itemView: View?, private val itemListener: OnItemRecyclerViewClickListener<Movie>?) :
-            RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class ViewHolder(itemView: View?, private val itemListener: OnItemRecyclerViewClickListener<Movie>?) :
+            RecyclerView.ViewHolder(itemView!!), View.OnClickListener {
 
         private var listener: OnItemRecyclerViewClickListener<Movie>? = null
+        private var movieData: Movie? = null
 
-        fun bindViewData(movie: Movie) {
-            itemView.textViewTitle.text = movie.title
-            itemView.textViewRatting.text = movie.vote.toString()
-            itemView.textViewContent.text = movie.originalTitle
-            itemView.setOnClickListener(this)
-            listener = itemListener
-            getImageCircle(movie)
-        }
-
-        private fun getImageCircle(movie: Movie) {
-            Glide.with(itemView.context)
-                    .load(Constant.BASE_URL_IMAGE + movie.urlImage)
-                    .into(itemView.imageMovie)
+        fun bindViewData(movie: Movie) = with(itemView) {
+            movie.let {
+                textViewTitle.text = it.title
+                textViewRatting.text = it.vote.toString()
+                textViewContent.text = it.originalTitle
+                imageMovie.loadImageCircleWithUrl(it.urlImage)
+                setOnClickListener(this@ViewHolder)
+                listener = itemListener
+                movieData = it
+            }
         }
 
         override fun onClick(v: View?) {
-            listener?.onItemClickListener(movies[adapterPosition])
+            listener?.onItemClickListener(movieData)
         }
     }
 }
