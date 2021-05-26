@@ -4,4 +4,9 @@
     <dimen name="dp_3">3dp</dimen>
     <dimen name="dp_1">1dp</dimen>
     <dimen name="sp_17">17sp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="sp_18">18sp</dimen>
+    <dimen name="sp_14">14sp</dimen>
 </resources>

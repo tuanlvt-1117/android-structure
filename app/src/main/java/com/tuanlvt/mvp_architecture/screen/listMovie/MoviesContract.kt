@@ -1,9 +1,9 @@
-package com.tuanlvt.mvp_architecture.screen.main
+package com.tuanlvt.mvp_architecture.screen.listMovie
 
 import com.tuanlvt.mvp_architecture.data.model.Movie
 import com.tuanlvt.mvp_architecture.utils.BasePresenter
 
-interface MainContract {
+class MoviesContract {
     /**
      * View
      */

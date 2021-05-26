@@ -7,17 +7,20 @@ import com.tuanlvt.mvp_architecture.data.source.remote.fetchjson.GetJsonFromUrl
 import com.tuanlvt.mvp_architecture.utils.Constant
 
 class MovieRemoteDataSource : MovieDataSource.Remote {
-    private var baseUrl = Constant.BASE_URL + Constant.BASE_API_KEY + Constant.BASE_LANGUAGE
 
-    private object Holder {
-        val INSTANCE = MovieRemoteDataSource()
-    }
+    private var baseUrl = Constant.BASE_URL
 
-    override fun getMovies(listener: OnFetchDataJsonListener<MutableList<Movie>>) {
-        GetJsonFromUrl(listener, MovieEntry.MOVIE).execute(baseUrl + Constant.BASE_PAGE)
+    override fun getMovies(listener: OnDataResultListener<MutableList<Movie>>) {
+        GetJsonFromUrl(listener,
+                baseUrl + Constant.BASE_PAGE,
+                MovieEntry.MOVIE)
     }
 
     companion object {
-        val instance: MovieRemoteDataSource by lazy { Holder.INSTANCE }
+        private var instance: MovieRemoteDataSource? = null
+
+        fun getInstance() = synchronized(this) {
+            instance ?: MovieRemoteDataSource().also { instance = it }
+        }
     }
 }

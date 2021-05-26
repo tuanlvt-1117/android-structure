@@ -6,10 +6,15 @@ import org.json.JSONObject
 
 class ParseJson {
 
-    fun movieParseJson(jsonObject: JSONObject): Movie {
-        return Movie(vote = jsonObject.getInt(MovieEntry.VOTE),
-                title = jsonObject.getString(MovieEntry.TITLE),
-                urlImage = jsonObject.getString(MovieEntry.URL_IMAGE),
-                originalTitle = jsonObject.getString(MovieEntry.ORIGINAL_TITLE))
+    fun movieParseJson(jsonObject: JSONObject) = Movie().apply {
+        jsonObject.let {
+            vote = it.getInt(MovieEntry.VOTE)
+            title = it.getString(MovieEntry.TITLE)
+            urlImage = it.getString(MovieEntry.URL_IMAGE)
+            originalTitle = it.getString(MovieEntry.ORIGINAL_TITLE)
+            voteCount = it.getInt(MovieEntry.VOTE_COUNT)
+            backDropImage = it.getString(MovieEntry.BACKDROP_IMAGE)
+            overView = it.getString(MovieEntry.OVERVIEW)
+        }
     }
 }
