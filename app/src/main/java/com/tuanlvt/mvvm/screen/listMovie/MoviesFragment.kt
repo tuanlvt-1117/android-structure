@@ -39,6 +39,7 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesViewModel>(), O
     }
 
     override fun registerLiveData() = with(viewModel) {
+        super.registerLiveData()
         movies.observe(viewLifecycleOwner, Observer(::updateMovies))
     }
 

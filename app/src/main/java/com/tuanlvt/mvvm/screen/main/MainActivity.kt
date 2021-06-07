@@ -25,6 +25,4 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun initData() {}
-
-    override fun registerLiveData() {}
 }
